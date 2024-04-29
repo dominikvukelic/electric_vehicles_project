@@ -9,3 +9,11 @@ df <- read.csv(dataset_path, na.strings = c("", "NA"))
 
 # View the contents of a dataframe
 View(df)
+
+# Inspect the structure of the data
+glimpse(df)
+
+
+# Renaming Accel column to Acceleration
+df <- df %>%
+  rename(Acceleration = Accel)
