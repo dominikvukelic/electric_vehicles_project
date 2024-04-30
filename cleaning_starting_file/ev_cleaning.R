@@ -17,3 +17,14 @@ glimpse(df)
 # Renaming Accel column to Acceleration
 df <- df %>%
   rename(Acceleration = Accel)
+
+# Renaming Acceleration column to Acceleration_to_100km/h_in_seconds
+df <- df %>%
+  rename(Acceleration_to_100km_h_in_seconds = Acceleration)
+
+# Removing sec value from Acceleration_to_100km/h_in_seconds column
+df <- df %>%
+  mutate(Acceleration_to_100km_h_in_seconds = gsub(" sec", "", Acceleration_to_100km_h_in_seconds))
+
+# Convert the column to numeric
+df$Acceleration_to_100km_h_in_seconds <- as.numeric(df$Acceleration_to_100km_h_in_seconds)
