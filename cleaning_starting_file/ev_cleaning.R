@@ -49,3 +49,29 @@ df <- df %>%
 
 # Convert Range_in_km column to numeric
 df$Range_in_km <- as.numeric(df$Range_in_km)
+
+# Renaming Efficiency column to Efficiency_in_Wh_km
+df <- df %>%
+  rename(Efficiency_in_Wh_km = Efficiency)
+
+# Removing Wh/km value from Efficiency_in_Wh_km column
+df <- df %>%
+  mutate(Efficiency_in_Wh_km = gsub(" Wh/km", "", Efficiency_in_Wh_km))
+
+# Convert Range_in_km column to numeric
+df$Efficiency_in_Wh_km <- as.numeric(df$Efficiency_in_Wh_km)
+
+# Renaming FastCharge column to Charge_in_km_h
+df <- df %>%
+  rename(Charge_in_km_h = FastCharge)
+
+# Keeping only rows which contain km/h
+df <- df %>%
+  filter(grepl(" km/h", Charge_in_km_h))
+
+# Removing km/h value from Charge_in_km_h column
+df <- df %>%
+  mutate(Charge_in_km_h = gsub(" km/h", "", Charge_in_km_h))
+
+# Convert Charge_in_km_h column to numeric
+df$Charge_in_km_h <- as.numeric(df$Charge_in_km_h)
