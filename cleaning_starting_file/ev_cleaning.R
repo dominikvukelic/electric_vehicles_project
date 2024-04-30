@@ -75,3 +75,25 @@ df <- df %>%
 
 # Convert Charge_in_km_h column to numeric
 df$Charge_in_km_h <- as.numeric(df$Charge_in_km_h)
+
+# Renaming RapidCharge column to Rapid_charge
+df <- df %>%
+  rename(Rapid_charge = RapidCharge)
+
+#Checking values in Rapid_charge column
+unique_values <- unique(df$Rapid_charge)
+
+# Display unique values
+print(unique_values)
+
+# Renaming value Rapid charging possible to Yes in Rapid_charge column
+df <- df %>%
+  mutate(Rapid_charge = ifelse(Rapid_charge == "Rapid charging possible", "Yes", Rapid_charge))
+
+# Renaming Seats column to Number_of_seats
+df <- df %>%
+  rename(Number_of_seats = Seats)
+
+# Renaming PriceEuro column to Price_in_Euros
+df <- df %>%
+  rename(Price_in_Euros = PriceEuro)
