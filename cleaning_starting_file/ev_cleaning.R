@@ -81,10 +81,10 @@ df <- df %>%
   rename(Rapid_charge = RapidCharge)
 
 #Checking values in Rapid_charge column
-unique_values <- unique(df$Rapid_charge)
+unique_values_rapid_charge <- unique(df$Rapid_charge)
 
 # Display unique values
-print(unique_values)
+print(unique_values_rapid_charge)
 
 # Renaming value Rapid charging possible to Yes in Rapid_charge column
 df <- df %>%
@@ -97,3 +97,25 @@ df <- df %>%
 # Renaming PriceEuro column to Price_in_Euros
 df <- df %>%
   rename(Price_in_Euros = PriceEuro)
+
+#Checking values in Segment column
+unique_values_segment <- unique(df$Segment)
+
+# Display unique values for Segment column
+print(unique_values_segment)
+
+# Changing values in Segment column
+df <- df %>%
+  mutate(
+    Segment = case_when(
+      Segment == "A" ~ "A - Luxury electric vehicle",
+      Segment == "B" ~ "B - Mid-range electric vehicle",
+      Segment == "C" ~ "C - Compact electric vehicle",
+      Segment == "D" ~ "D - Commercial or fleet electric vehicle",
+      Segment == "E" ~ "E - Performance or extended range electric vehicle",
+      Segment == "F" ~ "F - Sports electric vehicle",
+      Segment == "N" ~ "N - Off-road or rugged terrain electric vehicle",
+      Segment == "S" ~ "S - Sustainable or eco-friendly electric vehicle",
+      TRUE ~ Segment  # Keep other values unchanged
+    )
+  )
