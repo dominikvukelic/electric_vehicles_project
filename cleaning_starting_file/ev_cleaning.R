@@ -13,7 +13,6 @@ View(df)
 # Inspect the structure of the data
 glimpse(df)
 
-
 # Renaming Accel column to Acceleration
 df <- df %>%
   rename(Acceleration = Accel)
@@ -26,13 +25,27 @@ df <- df %>%
 df <- df %>%
   mutate(Acceleration_to_100km_h_in_seconds = gsub(" sec", "", Acceleration_to_100km_h_in_seconds))
 
-# Convert the column to numeric
+# Convert Acceleration_to_100km_h_in_seconds column to numeric
 df$Acceleration_to_100km_h_in_seconds <- as.numeric(df$Acceleration_to_100km_h_in_seconds)
 
-# Renaming TopSpeed column to Top_speed_in_km/h
+# Renaming TopSpeed column to Top_speed_in_km_h
 df <- df %>%
   rename(Top_speed_in_km_h = TopSpeed)
 
 # Removing km/h value from Top_speed_in_km_h column
 df <- df %>%
   mutate(Top_speed_in_km_h = gsub(" km/h", "", Top_speed_in_km_h))
+
+# Convert Top_speed_in_km_h column to numeric
+df$Top_speed_in_km_h <- as.numeric(df$Top_speed_in_km_h)
+
+# Renaming Range column to Range_in_km
+df <- df %>%
+  rename(Range_in_km = Range)
+
+# Removing km value from Range_in_km column
+df <- df %>%
+  mutate(Range_in_km = gsub(" km", "", Range_in_km))
+
+# Convert Range_in_km column to numeric
+df$Range_in_km <- as.numeric(df$Range_in_km)
