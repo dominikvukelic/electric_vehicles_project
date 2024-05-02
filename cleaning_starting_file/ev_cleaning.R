@@ -121,7 +121,7 @@ df <- df %>%
   )
 
 # Specifying the path for the cleaned CSV file
-cleaned_file_path <- "cleaned_starting_file/EV_Data_cleaned"
+cleaned_file_path <- "cleaned_starting_file/EV_Data_cleaned.csv"
 
 # Writing the cleaned DataFrame to a new CSV file
 write.csv(df, file = cleaned_file_path, row.names = FALSE)
