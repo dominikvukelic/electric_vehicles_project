@@ -119,3 +119,9 @@ df <- df %>%
       TRUE ~ Segment  # Keep other values unchanged
     )
   )
+
+# Specifying the path for the cleaned CSV file
+cleaned_file_path <- "cleaned_starting_file/EV_Data_cleaned"
+
+# Writing the cleaned DataFrame to a new CSV file
+write.csv(df, file = cleaned_file_path, row.names = FALSE)
