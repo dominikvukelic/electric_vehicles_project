@@ -30,8 +30,16 @@ ggplot(df, aes(x = Brand, fill = Brand)) +
 # Aggregate counts of top speeds by brand
 speed_counts <- with(df, table(Brand, Top_speed_in_km_h))
 
-# Plot bar plot with brands included
+# Creating a bar plot with brands included
 barplot(speed_counts, beside = TRUE, col = rainbow(nrow(speed_counts)), main = "Distribution of Top Speeds of Electric Vehicles by Brand", xlab = "Top Speed (km/h)", ylab = "Count")
 legend("topright", legend = rownames(speed_counts), fill = rainbow(nrow(speed_counts)))
+
+# Creating a scatter plot of Acceleration vs. Top Speed
+ggplot(df, aes(x = Acceleration_to_100km_h_in_seconds, y = Top_speed_in_km_h, color = Segment)) +
+  geom_point() +
+  labs(title = "Acceleration vs. Top Speed of Electric Vehicles",
+       x = "Acceleration (s)",
+       y = "Top Speed (km/h)") +
+  theme_minimal()
 
 
