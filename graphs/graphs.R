@@ -3,6 +3,7 @@ library(ggplot2)
 library(tidyverse)  # Includes dplyr and forcats
 library(scales)
 library(ggrepel)
+library(ggplotly)
 
 
 # Specifying the relative path to your dataset within the project
@@ -26,21 +27,11 @@ ggplot(df, aes(x = Brand, fill = Brand)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-# Summarize the data to calculate counts
-counts <- df %>%
-  group_by(Top_speed_in_km_h) %>%
-  summarize(count = n())
+# Aggregate counts of top speeds by brand
+speed_counts <- with(df, table(Brand, Top_speed_in_km_h))
 
-# Create a horizontal bar plot of top speeds
-ggplot(df, aes(x = Top_speed_in_km_h, fill = as.factor(Top_speed_in_km_h))) +
-  geom_bar(color = "black") +
-  geom_text(stat = "count", aes(label = after_stat(count)), hjust = -0.1, color = "black") +
-  labs(title = "Distribution of Top Speeds of Electric Vehicles",
-       y = "Top Speed (km/h)",
-       x = "Count") +
-  theme_minimal() +
-  coord_flip() +
-  theme(legend.position = "none")
-
+# Plot bar plot with brands included
+barplot(speed_counts, beside = TRUE, col = rainbow(nrow(speed_counts)), main = "Distribution of Top Speeds of Electric Vehicles by Brand", xlab = "Top Speed (km/h)", ylab = "Count")
+legend("topright", legend = rownames(speed_counts), fill = rainbow(nrow(speed_counts)))
 
 
