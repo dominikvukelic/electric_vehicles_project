@@ -3,8 +3,6 @@ library(ggplot2)
 library(tidyverse)  # Includes dplyr and forcats
 library(scales)
 library(ggrepel)
-library(ggplotly)
-
 
 # Specifying the relative path to your dataset within the project
 dataset_path <- "cleaned_starting_file/EV_Data_cleaned.csv"
@@ -41,5 +39,14 @@ ggplot(df, aes(x = Acceleration_to_100km_h_in_seconds, y = Top_speed_in_km_h, co
        x = "Acceleration (s)",
        y = "Top Speed (km/h)") +
   theme_minimal()
+
+# Creating a scatter plot of Efficiency vs. Range:
+ggplot(df, aes(x = Efficiency_in_Wh_km, y = Range_in_km, color = PowerTrain)) +
+  geom_point() +
+  labs(title = "Efficiency vs. Range of Electric Vehicles",
+       x = "Efficiency (Wh/km)",
+       y = "Range (km)") +
+  theme_minimal()
+
 
 
