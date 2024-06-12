@@ -17,7 +17,7 @@ Sys.setlocale("LC_TIME", "English")
 
 ```{r}
 # Specify the relative path to your dataset within the project
-dataset_path <- "cleaned_starting_file/EV_Data_cleaned.csv"
+dataset_path <- file.path('..', 'cleaned_starting_file', 'EV_Data_cleaned.csv')
 
 # Importing the dataset using read.csv with na.strings parameter to indicate missing values
 df <- read.csv(dataset_path, na.strings = c("", "NA"))
