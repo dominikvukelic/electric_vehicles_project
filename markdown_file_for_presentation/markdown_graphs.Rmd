@@ -1,0 +1,38 @@
+---
+title: "Visual Analysis of Electric Cars Dataset"
+author: "Dominik Vukelic"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, fig.show='hold', message=FALSE)
+## Importing necessary libraries
+library(ggplot2)
+library(tidyverse)
+library(scales)
+
+Sys.setlocale("LC_TIME", "English")
+
+```
+
+```{r}
+# Specify the relative path to your dataset within the project
+dataset_path <- "cleaned_starting_file/EV_Data_cleaned.csv"
+
+# Importing the dataset using read.csv with na.strings parameter to indicate missing values
+df <- read.csv(dataset_path, na.strings = c("", "NA"))
+```
+
+# Creating a bar chart of brands
+
+```{r}
+ggplot(df, aes(x = Brand, fill = Brand)) +
+  geom_bar(colour = "black", show.legend = FALSE) +
+  geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+  labs(title = "Count of Electric Vehicle Brands",
+       x = "Brand",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
