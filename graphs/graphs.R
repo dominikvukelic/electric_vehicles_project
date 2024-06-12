@@ -77,7 +77,7 @@ seat_counts <- df %>%
   group_by(Number_of_seats) %>%
   summarise(Count = n())
 
-# Create the bar plot
+# Creating the bar plot
 ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Number_of_seats))) +
   geom_bar(stat = "identity", color = "black", show.legend = FALSE) +
   geom_text(aes(label = Count), vjust = -0.5) +  
@@ -88,3 +88,21 @@ ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Nu
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
+# Count NA values in 'Price_in_Euros' column
+na_count_price <- sum(is.na(df$Price_in_Euros))
+
+# Count NA values in 'Segment' column
+na_count_segment <- sum(is.na(df$Segment))
+
+# Print the counts
+print(paste("NA count in 'Price_in_Euros' column:", na_count_price))
+print(paste("NA count in 'Segment' column:", na_count_segment))
+
+# Creating a density plot for vehicle prices with PowerTrain
+ggplot(df, aes(x = Price_in_Euros, fill = PowerTrain)) +
+  geom_density(alpha = 0.7) +
+  labs(title = "Density Plot of Vehicle Prices by PowerTrain",
+       x = "Price in Euros",
+       y = "Density",
+       fill = "PowerTrain") +
+  theme_minimal()
