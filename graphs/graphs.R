@@ -1,8 +1,7 @@
 # Importing necessary libraries
 library(ggplot2)
-library(tidyverse)  # Includes dplyr and forcats
+library(tidyverse)
 library(scales)
-library(ggrepel)
 
 # Specifying the relative path to your dataset within the project
 dataset_path <- "cleaned_starting_file/EV_Data_cleaned.csv"
@@ -25,7 +24,7 @@ ggplot(df, aes(x = Brand, fill = Brand)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-# Aggregate counts of top speeds by brand
+# Aggregating counts of top speeds by brand
 speed_counts <- with(df, table(Brand, Top_speed_in_km_h))
 
 # Creating a bar plot with brands included
@@ -49,7 +48,7 @@ ggplot(df, aes(x = Efficiency_in_Wh_km, y = Range_in_km, color = PowerTrain)) +
   theme_minimal()
 
 
-# Calculate percentages of BodyStyle
+# Calculating percentages of BodyStyle
 df_percent <- df %>%
   count(BodyStyle) %>%
   mutate(percentage = n / sum(n) * 100)
@@ -66,13 +65,13 @@ ggplot(df_percent, aes(x = 2, y = percentage, fill = BodyStyle)) +
   theme_void() +
   theme(legend.position = "right")
 
-# Check unique values of Number_of_seats
+# Checking unique values of Number_of_seats
 unique_seats <- unique(df$Number_of_seats)
 
-# Print unique values
+# Printing unique values
 print(unique_seats)
 
-# Count the number of cars for each unique number of seats
+# Counting the number of cars for each unique number of seats
 seat_counts <- df %>%
   group_by(Number_of_seats) %>%
   summarise(Count = n())
@@ -88,15 +87,6 @@ ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Nu
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
-# Count NA values in 'Price_in_Euros' column
-na_count_price <- sum(is.na(df$Price_in_Euros))
-
-# Count NA values in 'Segment' column
-na_count_segment <- sum(is.na(df$Segment))
-
-# Print the counts
-print(paste("NA count in 'Price_in_Euros' column:", na_count_price))
-print(paste("NA count in 'Segment' column:", na_count_segment))
 
 # Creating a density plot for vehicle prices with PowerTrain
 ggplot(df, aes(x = Price_in_Euros, fill = PowerTrain)) +
@@ -106,3 +96,63 @@ ggplot(df, aes(x = Price_in_Euros, fill = PowerTrain)) +
        y = "Density",
        fill = "PowerTrain") +
   theme_minimal()
+
+# Finding the most common PowerTrain type
+most_common_powertrain <- df %>%
+  count(PowerTrain) %>%
+  arrange(desc(n)) %>%
+  slice(1) %>%
+  pull(PowerTrain)
+
+# Filtering the dataframe for the most common powertrain type
+filtered_df <- df %>%
+  filter(PowerTrain == most_common_powertrain)
+
+# Calculating the average price for each brand
+average_price <- filtered_df %>%
+  group_by(Brand) %>%
+  summarise(Avg_Price = mean(Price_in_Euros))
+
+# Sorting the brands by average price in descending order
+average_price <- average_price %>%
+  arrange(desc(Avg_Price))
+
+# Creating a bar chart for the average price for each brand
+ggplot(average_price, aes(x = reorder(Brand, -Avg_Price), y = Avg_Price, fill = Brand)) +
+  geom_bar(stat = "identity", color = "black", show.legend = FALSE) +
+  labs(title = paste("Average Price of Electric Vehicles with", most_common_powertrain, "(most common) Powertrain by Brand"),
+       x = "Brand",
+       y = "Average Price (Euros)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+
+# Calculating the count of each PowerTrain type for each brand
+powertrain_counts <- df %>%
+  count(Brand, PowerTrain) %>%
+  arrange(Brand, desc(n))
+
+# Creating the stacked bar chart
+ggplot(powertrain_counts, aes(x = Brand, y = n, fill = PowerTrain)) +
+  geom_bar(stat = "identity", color = "black", position = "stack") +
+  labs(title = "Distribution of Electric Vehicle Brands by Powertrain Type",
+       x = "Brand",
+       y = "Count",
+       fill = "PowerTrain") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+
+# Calculating the count of each segment for each brand
+segment_counts <- df %>%
+  count(Brand, Segment) %>%
+  arrange(Brand, desc(n))
+
+# Creatingthe stacked bar chart
+ggplot(segment_counts, aes(y = forcats::fct_rev(Brand), x = n, fill = Segment)) +
+  geom_bar(stat = "identity", color = "black", position = "stack") +
+  labs(title = "Distribution of Electric Vehicle Brands by Segment",
+       x = "Count",
+       y = "Brand",
+       fill = "Segment") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(angle = 0, hjust = 1))
