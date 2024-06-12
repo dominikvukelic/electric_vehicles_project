@@ -49,4 +49,20 @@ ggplot(df, aes(x = Efficiency_in_Wh_km, y = Range_in_km, color = PowerTrain)) +
   theme_minimal()
 
 
+# Calculate percentages of BodyStyle
+df_percent <- df %>%
+  count(BodyStyle) %>%
+  mutate(percentage = n / sum(n) * 100)
+
+# Creating a donut chart for BodyStyle
+ggplot(df_percent, aes(x = 2, y = percentage, fill = BodyStyle)) +
+  geom_bar(stat = "identity", width = 1, color = "black") +
+  coord_polar(theta = "y") +
+  xlim(0.5, 2.5) +  # Adjust to create a donut shape
+  geom_text(aes(label = sprintf("%.1f%%", percentage)), 
+            position = position_stack(vjust = 0.5), size = 4) +
+  labs(title = "Distribution of Vehicle Body Styles",
+       fill = "Body Style") +
+  theme_void() +
+  theme(legend.position = "right")
 
