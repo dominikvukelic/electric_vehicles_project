@@ -66,3 +66,25 @@ ggplot(df_percent, aes(x = 2, y = percentage, fill = BodyStyle)) +
   theme_void() +
   theme(legend.position = "right")
 
+# Check unique values of Number_of_seats
+unique_seats <- unique(df$Number_of_seats)
+
+# Print unique values
+print(unique_seats)
+
+# Count the number of cars for each unique number of seats
+seat_counts <- df %>%
+  group_by(Number_of_seats) %>%
+  summarise(Count = n())
+
+# Create the bar plot
+ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Number_of_seats))) +
+  geom_bar(stat = "identity", color = "black", show.legend = FALSE) +
+  geom_text(aes(label = Count), vjust = -0.5) +  
+  labs(title = "Count of Cars by Number of Seats",
+       x = "Number of Seats",
+       y = "Count") +
+  scale_fill_brewer(palette = "Set3") +  
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 1))
+
