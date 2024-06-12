@@ -53,7 +53,7 @@ df_percent <- df %>%
   count(BodyStyle) %>%
   mutate(percentage = n / sum(n) * 100)
 
-# Creating a donut chart for BodyStyle
+# Creating a Donut Chart for BodyStyle
 ggplot(df_percent, aes(x = 2, y = percentage, fill = BodyStyle)) +
   geom_bar(stat = "identity", width = 1, color = "black") +
   coord_polar(theta = "y") +
@@ -76,7 +76,7 @@ seat_counts <- df %>%
   group_by(Number_of_seats) %>%
   summarise(Count = n())
 
-# Creating the bar plot
+# Creating the Bar Plot for Number of seats
 ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Number_of_seats))) +
   geom_bar(stat = "identity", color = "black", show.legend = FALSE) +
   geom_text(aes(label = Count), vjust = -0.5) +  
@@ -88,7 +88,7 @@ ggplot(seat_counts, aes(x = factor(Number_of_seats), y = Count, fill = factor(Nu
   theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
 
-# Creating a density plot for vehicle prices with PowerTrain
+# Creating a Density Plot for Vehicle Prices and PowerTrain
 ggplot(df, aes(x = Price_in_Euros, fill = PowerTrain)) +
   geom_density(alpha = 0.7) +
   labs(title = "Density Plot of Vehicle Prices by PowerTrain",
@@ -117,7 +117,7 @@ average_price <- filtered_df %>%
 average_price <- average_price %>%
   arrange(desc(Avg_Price))
 
-# Creating a bar chart for the average price for each brand
+# Creating a Bar Chart for the average price for each brand
 ggplot(average_price, aes(x = reorder(Brand, -Avg_Price), y = Avg_Price, fill = Brand)) +
   geom_bar(stat = "identity", color = "black", show.legend = FALSE) +
   labs(title = paste("Average Price of Electric Vehicles with", most_common_powertrain, "(most common) Powertrain by Brand"),
@@ -131,7 +131,7 @@ powertrain_counts <- df %>%
   count(Brand, PowerTrain) %>%
   arrange(Brand, desc(n))
 
-# Creating the stacked bar chart
+# Creating the Stacked Bar Chart for Vehicle Brands and PowerTrain
 ggplot(powertrain_counts, aes(x = Brand, y = n, fill = PowerTrain)) +
   geom_bar(stat = "identity", color = "black", position = "stack") +
   labs(title = "Distribution of Electric Vehicle Brands by Powertrain Type",
@@ -147,7 +147,7 @@ segment_counts <- df %>%
   count(Brand, Segment) %>%
   arrange(Brand, desc(n))
 
-# Creatingthe stacked bar chart
+# Creating the Stacked Bar Chart for Vehicle Brands and Segment
 ggplot(segment_counts, aes(y = forcats::fct_rev(Brand), x = n, fill = Segment)) +
   geom_bar(stat = "identity", color = "black", position = "stack") +
   labs(title = "Distribution of Electric Vehicle Brands by Segment",
