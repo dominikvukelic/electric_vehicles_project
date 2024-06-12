@@ -23,7 +23,7 @@ dataset_path <- file.path('..', 'cleaned_starting_file', 'EV_Data_cleaned.csv')
 df <- read.csv(dataset_path, na.strings = c("", "NA"))
 ```
 
-# Creating a bar chart of brands
+# Creating a Bar Chart of Vehicle Brands
 
 ```{r}
 ggplot(df, aes(x = Brand, fill = Brand)) +
@@ -34,5 +34,26 @@ ggplot(df, aes(x = Brand, fill = Brand)) +
        y = "Count") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+# Creating a Bar Plot for Top Speeds by Vehicle Brand
+
+```{r}
+# Aggregating counts of top speeds by brand
+speed_counts <- with(df, table(Brand, Top_speed_in_km_h))
+
+barplot(speed_counts, beside = TRUE, col = rainbow(nrow(speed_counts)), main = "Distribution of Top Speeds of Electric Vehicles by Brand", xlab = "Top Speed (km/h)", ylab = "Count")
+legend("topright", legend = rownames(speed_counts), fill = rainbow(nrow(speed_counts)))
+```
+
+# Creating a Scatter Plot of Acceleration vs. Top Speed
+
+```{r}
+ggplot(df, aes(x = Acceleration_to_100km_h_in_seconds, y = Top_speed_in_km_h, color = Segment)) +
+  geom_point() +
+  labs(title = "Acceleration vs. Top Speed of Electric Vehicles",
+       x = "Acceleration (s)",
+       y = "Top Speed (km/h)") +
+  theme_minimal()
 ```
 
